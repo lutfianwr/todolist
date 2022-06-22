@@ -10,20 +10,26 @@ const TodoForm = (props) => {
   };
 
   return (
-    <div className=" bg-red-100 w-full content-center items-center">
-      <div className="border-pink-800 text-center">
-        <div>TODO</div>
-        <form onSubmit={handleSubmit}>
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            type="text"
-            placeholder="add a todo"
-          />
-          <button type="submit" className="rounded-r-lg bg-gray-700">
-            add todo
-          </button>
-        </form>
+    <div className="">
+      <div className="text-center">
+        <div className="p-5 font-bold text-4xl">TODO LIST</div>
+        <div className="mb-10 ">
+          <form onSubmit={handleSubmit}>
+            <input
+              className=" p-2 px-5 w-1/2 rounded-l-lg"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              type="text"
+              placeholder="add a new task"
+            />
+            <button
+              type="submit"
+              className="rounded-r-lg bg-gray-700 p-2 px-5 text-white "
+            >
+              Add
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
