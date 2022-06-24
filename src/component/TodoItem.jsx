@@ -5,7 +5,7 @@ const TodoItem = (props) => {
     <div>
       <div className="sm:flex p-2 m-5 bg-white justify-between align-middle rounded-lg shadow-lg">
         <div className={todo.completed ? "line-through p-5" : "incomplete p-5"}>
-          {todo.text}
+          {todo.content}
         </div>
         <div className="flex">
           <button

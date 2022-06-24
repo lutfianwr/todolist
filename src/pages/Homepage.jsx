@@ -7,9 +7,7 @@ import Layout from "../component/Layout";
 import axios from "axios";
 
 function Homepage() {
-  const [data, setData] = useState([]);
   const [todos, setTodos] = useState([]);
-  const [remove, setRemove] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -20,28 +18,39 @@ function Homepage() {
       .get(`https://api.todoist.com/rest/v1/tasks`, {
         headers: {
           Authorization: `Bearer 8845c7d100a662743d705c1c0aaf4150bb1a226d`,
-          // my apikey 8845c7d100a662743d705c1c0aaf4150bb1a226d
         },
       })
       .then((response) => {
-        console.log(response);
-        setData(response.data);
+        //console.log(response.data);
+        //setData(response.data);
+        setTodos(response.data);
       })
       .catch((err) => alert(err.toString()))
       .finally(() => ({ loading: false }));
   }
 
   const handleCreate = (text) => {
-    axios
-      .post("https://api.todoist.com/rest/v1/tasks", { text })
-      .then((res) => {
-        setTodos([...todos, res.data]);
-      })
-      .catch((err) => alert(err.toString()))
-      .finally(() => ({ loading: false }));
+    const todo = {
+      content: text,
+    };
+    if (text !== "") {
+      axios
+        .post(`https://api.todoist.com/rest/v1/tasks`, todo, {
+          headers: {
+            Authorization: `Bearer 8845c7d100a662743d705c1c0aaf4150bb1a226d`,
+          },
+        })
+        .then((res) => {
+          setTodos([res.data, ...todos]);
+        })
+        .catch((err) => {
+          alert(err).toString();
+        })
+        .finally(() => ({ loading: false }));
+    }
   };
 
-  const handleRemove = (id) => {
+  const handleDelete = (id) => {
     axios
       .delete(`https://api.todoist.com/rest/v1/tasks/${id}`, {
         headers: {
@@ -49,28 +58,57 @@ function Homepage() {
         },
       })
       .then((res) => {
-        setRemove([...remove, res.data]);
+        console.log(res.data);
+        setTodos(todos.filter((todo) => todo.id !== id));
       })
-      .catch((err) => alert(err.toString()))
+      .catch((err) => {
+        alert(err).toString();
+      })
       .finally(() => ({ loading: false }));
   };
 
-  //no api
-  const addTodo = (text) => {
-    if (text !== "") {
-      let id = 1;
-      if (todos.length > 0) {
-        id = todos[0].id + 1;
-      }
-      let todo = { id: id, text: text, completed: false };
-      //let newTodos = [todo, ...todos];
-      setTodos([todo, ...todos]);
-    }
+  const handleUpdate = (id, text) => {
+    const todo = {
+      content: text,
+    };
+    axios
+
+      .put(`https://api.todoist.com/rest/v1/tasks/${id}`, todo, {
+        headers: {
+          Authorization: `Bearer 8845c7d100a662743d705c1c0aaf4150bb1a226d`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setTodos(todos.map((todo) => (todo.id === id ? res.data : todo)));
+      })
+      .catch((err) => {
+        alert(err).toString();
+      })
+      .finally(() => ({ loading: false }));
   };
 
-  const removeTodo = (id) => {
-    let updateTodos = [...todos].filter((todo) => todo.id !== id);
-    setTodos(updateTodos);
+  const handleComplete = (id) => {
+    axios
+      .post(
+        `https://api.todoist.com/rest/v1/tasks/${id}`,
+        {
+          completed: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer 8845c7d100a662743d705c1c0aaf4150bb1a226d`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setTodos(todos.map((todo) => (todo.id === id ? res.data : todo)));
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => ({ loading: false }));
   };
 
   const completeTodo = (id) => {
@@ -86,14 +124,15 @@ function Homepage() {
   return (
     <Layout>
       <Header></Header>
-      <TodoForm addTodo={addTodo} />
+      <TodoForm addTodo={handleCreate} />
       {todos.map((todo) => {
         return (
           <TodoItem
-            removeTodo={removeTodo}
-            completeTodo={completeTodo}
-            todo={todo}
             key={todo.id}
+            todo={todo}
+            text={todo.content}
+            removeTodo={handleDelete}
+            completeTodo={handleComplete}
           />
         );
       })}
