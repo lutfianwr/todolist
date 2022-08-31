@@ -8,6 +8,7 @@ import axios from "axios";
 
 function Homepage() {
   const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -17,12 +18,10 @@ function Homepage() {
     axios
       .get(`https://api.todoist.com/rest/v1/tasks`, {
         headers: {
-          Authorization: `Bearer 8845c7d100a662743d705c1c0aaf4150bb1a226d`,
+          Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
         },
       })
       .then((response) => {
-        //console.log(response.data);
-        //setData(response.data);
         setTodos(response.data);
       })
       .catch((err) => alert(err.toString()))
@@ -37,11 +36,12 @@ function Homepage() {
       axios
         .post(`https://api.todoist.com/rest/v1/tasks`, todo, {
           headers: {
-            Authorization: `Bearer 8845c7d100a662743d705c1c0aaf4150bb1a226d`,
+            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
           },
         })
         .then((res) => {
           setTodos([res.data, ...todos]);
+          console.log("created");
         })
         .catch((err) => {
           alert(err).toString();
@@ -54,33 +54,11 @@ function Homepage() {
     axios
       .delete(`https://api.todoist.com/rest/v1/tasks/${id}`, {
         headers: {
-          Authorization: `Bearer 8845c7d100a662743d705c1c0aaf4150bb1a226d`,
+          Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
         },
       })
       .then((res) => {
-        console.log(res.data);
         setTodos(todos.filter((todo) => todo.id !== id));
-      })
-      .catch((err) => {
-        alert(err).toString();
-      })
-      .finally(() => ({ loading: false }));
-  };
-
-  const handleUpdate = (id, text) => {
-    const todo = {
-      content: text,
-    };
-    axios
-
-      .put(`https://api.todoist.com/rest/v1/tasks/${id}`, todo, {
-        headers: {
-          Authorization: `Bearer 8845c7d100a662743d705c1c0aaf4150bb1a226d`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setTodos(todos.map((todo) => (todo.id === id ? res.data : todo)));
       })
       .catch((err) => {
         alert(err).toString();
@@ -94,21 +72,46 @@ function Homepage() {
         `https://api.todoist.com/rest/v1/tasks/${id}`,
         {
           completed: true,
+          priority: "2",
         },
         {
           headers: {
-            Authorization: `Bearer 8845c7d100a662743d705c1c0aaf4150bb1a226d`,
+            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
           },
         }
       )
       .then((res) => {
-        console.log(res.data);
-        setTodos(todos.map((todo) => (todo.id === id ? res.data : todo)));
+        fetchData();
+
+        //setTodos(todos.map((todo) => (todo.id === id ? res.data : todo)));
       })
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => ({ loading: false }));
+      // .finally(() => ({ loading: false }));
+      .finally(() => ({ fetchData }));
+  };
+  const handleUncomplete = (id) => {
+    axios
+      .post(
+        `https://api.todoist.com/rest/v1/tasks/${id}`,
+        {
+          completed: true,
+          priority: "1",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+          },
+        }
+      )
+      .then((res) => {
+        fetchData();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => ({ fetchData }));
   };
 
   const completeTodo = (id) => {
@@ -121,23 +124,31 @@ function Homepage() {
     setTodos(updateTodos);
   };
 
-  return (
-    <Layout>
-      <Header></Header>
-      <TodoForm addTodo={handleCreate} />
-      {todos.map((todo) => {
-        return (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            text={todo.content}
-            removeTodo={handleDelete}
-            completeTodo={handleComplete}
-          />
-        );
-      })}
-    </Layout>
-  );
+  if (loading) {
+    return <div>now loading</div>;
+  } else {
+    return (
+      <Layout>
+        <div>{console.log(todos)}</div>
+        <Header></Header>
+        <TodoForm addTodo={handleCreate} />
+        <div>
+          {todos.map((todo) => {
+            return (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                text={todo.content}
+                removeTodo={handleDelete}
+                completeTodo={handleComplete}
+                uncompleteTodo={handleUncomplete}
+              />
+            );
+          })}
+        </div>
+      </Layout>
+    );
+  }
 }
 
 export default Homepage;

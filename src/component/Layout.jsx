@@ -1,6 +1,6 @@
 const Layout = (props) => {
   return (
-    <div className="bg-red-100 h-screen w-full overflow-auto">
+    <div className="bg-indigo-500 h-screen w-full overflow-auto pb-10">
       {props.children}
     </div>
   );

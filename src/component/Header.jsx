@@ -2,21 +2,26 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="bg-red-500 w-full text-white flex justify-between">
+    <div className="bg-indigo-900 w-full text-white flex justify-between">
       <div className="flex font-medium ">
         <div className=" p-5">
-          <Link className="text-sm lg:flex-grow " to="/">
-            Home
+          <Link
+            className="text-4xl lg:flex-grow px-10 underline underline-offset-2"
+            to="/"
+          >
+            ToDo
           </Link>
         </div>
-        <div className=" p-5">
-          <Link className="text-sm lg:flex-grow " to="/ToDoDetail">
-            Detail
-          </Link>
-        </div>
+        {/* <div className="flex">
+          <img
+            className="p-2"
+            src="https://www.fightersgeneration.com/characters/chunny-stance-mini-pocket.gif"
+          ></img>
+          <img src="https://www.fightersgeneration.com/characters/chunli-gem-fireball.gif"></img>
+        </div> */}
       </div>
 
-      <div className="SEARCH flex justify-center p-5">
+      {/* <div className="SEARCH flex justify-center p-5">
         <div className="xl:w-96">
           <div className="input-group relative flex items-stretch w-full">
             <input
@@ -49,7 +54,7 @@ const Header = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

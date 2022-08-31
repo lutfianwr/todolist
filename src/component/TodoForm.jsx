@@ -12,7 +12,7 @@ const TodoForm = (props) => {
   return (
     <div className="">
       <div className="text-center">
-        <div className="p-5 font-bold text-4xl">TODO LIST</div>
+        <div className="p-5 font-bold text-4xl text-white">TODO LIST</div>
         <div className="mb-10 ">
           <form onSubmit={handleSubmit}>
             <input
@@ -24,7 +24,7 @@ const TodoForm = (props) => {
             />
             <button
               type="submit"
-              className="rounded-r-lg bg-gray-700 p-2 px-5 text-white "
+              className="rounded-r-lg bg-indigo-900 p-2 px-5 text-white hover:bg-indigo-300 hover:text-indigo-800"
             >
               Add
             </button>
