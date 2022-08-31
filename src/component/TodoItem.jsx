@@ -11,7 +11,7 @@ const TodoItem = (props) => {
         <div className="">
           <div
             className={
-              todo.priority == 2 ? "line-through p-5" : "incomplete p-5"
+              todo.priority === 2 ? "line-through p-5" : "incomplete p-5"
             }
           >
             {todo.content}

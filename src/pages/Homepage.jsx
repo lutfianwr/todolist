@@ -8,7 +8,6 @@ import axios from "axios";
 
 function Homepage() {
   const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -114,41 +113,27 @@ function Homepage() {
       .finally(() => ({ fetchData }));
   };
 
-  const completeTodo = (id) => {
-    let updateTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.completed = !todo.completed;
-      }
-      return todo;
-    });
-    setTodos(updateTodos);
-  };
-
-  if (loading) {
-    return <div>now loading</div>;
-  } else {
-    return (
-      <Layout>
-        <div>{console.log(todos)}</div>
-        <Header></Header>
-        <TodoForm addTodo={handleCreate} />
-        <div>
-          {todos.map((todo) => {
-            return (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                text={todo.content}
-                removeTodo={handleDelete}
-                completeTodo={handleComplete}
-                uncompleteTodo={handleUncomplete}
-              />
-            );
-          })}
-        </div>
-      </Layout>
-    );
-  }
+  return (
+    <Layout>
+      <div>{console.log(todos)}</div>
+      <Header></Header>
+      <TodoForm addTodo={handleCreate} />
+      <div>
+        {todos.map((todo) => {
+          return (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              text={todo.content}
+              removeTodo={handleDelete}
+              completeTodo={handleComplete}
+              uncompleteTodo={handleUncomplete}
+            />
+          );
+        })}
+      </div>
+    </Layout>
+  );
 }
 
 export default Homepage;
