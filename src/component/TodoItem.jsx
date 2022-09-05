@@ -3,22 +3,30 @@ import { BsCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
 
 const TodoItem = (props) => {
-  const { todo, removeTodo, completeTodo, uncompleteTodo } = props;
+  const { todo, removeTodo, completeTodo, uncompleteTodo, detailTodo } = props;
 
   return (
-    <div>
-      <div className="flex p-2 m-5 lg:mx-28 bg-white justify-between align-middle rounded-lg shadow-lg">
-        <div className="">
+    <div className="w-full md:w-1/3">
+      <div className="lg:flex p-2 my-2 mx-5 bg-white justify-between align-middle rounded-lg shadow-lg">
+        <div className="p-2 lg:p-5 cursor-pointer">
           <div
+            onClick={() => detailTodo(todo.id)}
             className={
-              todo.priority === 2 ? "line-through p-5" : "incomplete p-5"
+              todo.priority === 2 ? "line-through text-lg" : "text-lg font-bold"
             }
           >
             {todo.content}
           </div>
-          <div className="pl-5 text-xs">{todo.created.substring(0, 10)}</div>
+          <div className="text-xs">
+            {"date created : "}
+            {todo.created.substring(0, 10)}
+          </div>
+          <div className="text-xs">
+            {"due date : "}
+            {todo.due.date}
+          </div>
         </div>
-        <div className="flex items-center">
+        <div className="flex justify-between lg:items-center">
           <div className="flex items-center">
             <a
               onClick={() => completeTodo(todo.id)}
@@ -37,7 +45,7 @@ const TodoItem = (props) => {
 
           <a
             onClick={() => removeTodo(todo.id)}
-            className="m-5 cursor-pointer text-2xl align-middle hover:text-indigo-500"
+            className="md:m-5 cursor-pointer text-2xl align-middle hover:text-indigo-500"
           >
             <BsTrashFill />
           </a>

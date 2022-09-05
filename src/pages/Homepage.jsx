@@ -5,13 +5,14 @@ import TodoItem from "../component/TodoItem";
 import { useState, useEffect } from "react";
 import Layout from "../component/Layout";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Loading from "../component/Loading";
+import Wave from "../component/Wave";
 
 function Homepage() {
   const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   function fetchData() {
     axios
@@ -24,12 +25,15 @@ function Homepage() {
         setTodos(response.data);
       })
       .catch((err) => alert(err.toString()))
-      .finally(() => ({ loading: false }));
+      .finally(() => setLoading(false));
   }
 
-  const handleCreate = (text) => {
+  const handleCreate = (text, description, date) => {
+    setLoading(true);
     const todo = {
       content: text,
+      description: description,
+      due_date: date,
     };
     if (text !== "") {
       axios
@@ -40,16 +44,26 @@ function Homepage() {
         })
         .then((res) => {
           setTodos([res.data, ...todos]);
-          console.log("created");
         })
         .catch((err) => {
           alert(err).toString();
         })
-        .finally(() => ({ loading: false }));
+        .finally(() => setLoading(false));
     }
   };
 
+  const handleDetail = (id) => {
+    // const index = todos.findIndex((element, index) => {
+    //   if (element.id === id) {
+    //     console.log(index);
+    //     return true;
+    //   }
+    // });
+    navigate(`ToDoDetail/${id}`);
+  };
+
   const handleDelete = (id) => {
+    // setLoading(true);
     axios
       .delete(`https://api.todoist.com/rest/v1/tasks/${id}`, {
         headers: {
@@ -61,11 +75,12 @@ function Homepage() {
       })
       .catch((err) => {
         alert(err).toString();
-      })
-      .finally(() => ({ loading: false }));
+      });
+    // .finally(() => setLoading(false));
   };
 
   const handleComplete = (id) => {
+    // setLoading(true);
     axios
       .post(
         `https://api.todoist.com/rest/v1/tasks/${id}`,
@@ -81,14 +96,11 @@ function Homepage() {
       )
       .then((res) => {
         fetchData();
-
-        //setTodos(todos.map((todo) => (todo.id === id ? res.data : todo)));
       })
       .catch((err) => {
         console.log(err);
-      })
-      // .finally(() => ({ loading: false }));
-      .finally(() => ({ fetchData }));
+      });
+    // .finally(() => setLoading(false));
   };
   const handleUncomplete = (id) => {
     axios
@@ -109,31 +121,44 @@ function Homepage() {
       })
       .catch((err) => {
         console.log(err);
-      })
-      .finally(() => ({ fetchData }));
+      });
+    // .finally(() => ({ fetchData }));
   };
 
-  return (
-    <Layout>
-      <div>{console.log(todos)}</div>
-      <Header></Header>
-      <TodoForm addTodo={handleCreate} />
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
       <div>
-        {todos.map((todo) => {
-          return (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              text={todo.content}
-              removeTodo={handleDelete}
-              completeTodo={handleComplete}
-              uncompleteTodo={handleUncomplete}
-            />
-          );
-        })}
+        <Loading />
       </div>
-    </Layout>
-  );
+    );
+  } else {
+    return (
+      <Layout>
+        <Header></Header>
+        <Wave></Wave>
+        <TodoForm addTodo={handleCreate} />
+        <div className="flex flex-wrap justify-center md:px-5">
+          {todos.map((todo) => {
+            return (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                text={todo.name}
+                removeTodo={handleDelete}
+                completeTodo={handleComplete}
+                uncompleteTodo={handleUncomplete}
+                detailTodo={handleDetail}
+              />
+            );
+          })}
+        </div>
+      </Layout>
+    );
+  }
 }
 
 export default Homepage;
