@@ -1,5 +1,4 @@
 import "../styles/App.css";
-import Header from "../component/Header";
 import TodoForm from "../component/TodoForm";
 import TodoItem from "../component/TodoItem";
 import { useState, useEffect } from "react";
@@ -53,12 +52,6 @@ function Homepage() {
   };
 
   const handleDetail = (id) => {
-    // const index = todos.findIndex((element, index) => {
-    //   if (element.id === id) {
-    //     console.log(index);
-    //     return true;
-    //   }
-    // });
     navigate(`ToDoDetail/${id}`);
   };
 
@@ -102,6 +95,7 @@ function Homepage() {
       });
     // .finally(() => setLoading(false));
   };
+
   const handleUncomplete = (id) => {
     axios
       .post(
@@ -138,7 +132,6 @@ function Homepage() {
   } else {
     return (
       <Layout>
-        <Header></Header>
         <Wave></Wave>
         <TodoForm addTodo={handleCreate} />
         <div className="flex flex-wrap justify-center md:px-5">

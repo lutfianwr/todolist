@@ -6,11 +6,13 @@ const TodoItem = (props) => {
   const { todo, removeTodo, completeTodo, uncompleteTodo, detailTodo } = props;
 
   return (
-    <div className="w-full md:w-1/3">
-      <div className="lg:flex p-2 my-2 mx-5 bg-white justify-between align-middle rounded-lg shadow-lg">
-        <div className="p-2 lg:p-5 cursor-pointer">
+    <div className="w-full md:w-1/3 lg:w-1/4">
+      <div className="p-2 my-2 mx-5 bg-white justify-between align-middle rounded-lg shadow-lg">
+        <div
+          onClick={() => detailTodo(todo.id)}
+          className="p-2 lg:p-5 cursor-pointer hover:bg-indigo-400 rounded-md bg-gray-200"
+        >
           <div
-            onClick={() => detailTodo(todo.id)}
             className={
               todo.priority === 2 ? "line-through text-lg" : "text-lg font-bold"
             }

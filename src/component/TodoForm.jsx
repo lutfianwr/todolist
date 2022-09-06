@@ -34,7 +34,7 @@ const TodoForm = (props) => {
               type="text"
               placeholder="add a description"
             />
-            <p className="text-white">When is the due date</p>
+            <p className="text-white">When is the due date?</p>
             <input
               className="md:m-2 p-2 px-5 md:w-1/2 w-full rounded-sm"
               value={date}
@@ -46,7 +46,7 @@ const TodoForm = (props) => {
             <button
               disabled={(!input, !description, !date)}
               type="submit"
-              className="bg-indigo-900 p-2 mt-5 px-5 text-white disabled:bg-gray-600 hover:bg-indigo-300 md:w-1/2 w-full rounded-sm"
+              className="bg-indigo-900 p-2 mt-5 px-5 text-white disabled:bg-gray-600 hover:bg-indigo-400 md:w-1/2 w-full rounded-sm"
             >
               Submit task
             </button>

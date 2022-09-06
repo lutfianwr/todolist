@@ -1,6 +1,4 @@
-import swipe from "./swipe.json";
-// import groovyWalkAnimation from "./groovyWalk.json";
-
+import swipe from "../assets//swipe.json";
 import React from "react";
 import Lottie from "lottie-react";
 
