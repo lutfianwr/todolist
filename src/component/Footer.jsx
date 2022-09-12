@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <div className="pt-5">
       <footer class="text-center lg:text-left bg-gray-100 text-gray-600">
-        <div class="flex justify-center items-center lg:justify-between p-3 mx-3 border-b border-gray-300">
+        <div class="flex justify-center items-center lg:justify-between p-2 mx-3 border-b border-gray-300">
           <div class="mr-12 hidden lg:block">
             <span>Get connected with me on social networks:</span>
           </div>
@@ -69,17 +69,21 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex p-3 lg:p-6 bg-gray-200 justify-between">
-          <div>created with react js & tailwind</div>
+          <div>
+            created with <a href="https://reactjs.org/">react js</a> &
+            <a href="https://tailwindcss.com/"> tailwind</a>
+          </div>
           <div class="">
             <span>© 2022</span>
             <a
-              class="text-gray-600 font-semibold"
+              className="text-gray-600 font-semibold"
               href="https://lutfi-portfolio.vercel.app/"
               target={"_blank"}
+              rel="noreferrer"
             >
               {" Lutfi Nuril"}
             </a>
-          </div>{" "}
+          </div>
         </div>
       </footer>
     </div>

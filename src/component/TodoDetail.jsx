@@ -5,7 +5,7 @@ const TodoDetai = (props) => {
     <div className="bg-[url('../assets/svg.png')] bg-no-repeat">
       <div className="lg:mx-20 p-4 rounded-md ">
         <div className="bg-white p-3 rounded-md mt-5">
-          <div className="p-2 w-full rounded-md text-2xl bg-gray-200">
+          <div className="p-2 w-full rounded-md text-2xl bg-gray-200 font-bold">
             {props.content}
           </div>
         </div>
@@ -35,7 +35,7 @@ const TodoDetai = (props) => {
               )}
             </div>
 
-            <div className="py-2 flex text-white">
+            <div className="pt-2 flex text-white">
               <a>
                 <button
                   className="bg-indigo-500 hover:bg-indigo-300 p-2 rounded-sm"

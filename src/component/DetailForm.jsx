@@ -38,7 +38,7 @@ const DetailForm = (props) => {
               type="Date"
               placeholder={props.date}
             />
-            <div className="py-2 flex text-white">
+            <div className="pt-2 flex text-white">
               <a>
                 <button
                   disabled={(!input, !description, !date)}

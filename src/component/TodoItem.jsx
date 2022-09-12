@@ -6,11 +6,11 @@ const TodoItem = (props) => {
   const { todo, removeTodo, completeTodo, uncompleteTodo, detailTodo } = props;
 
   return (
-    <div className="w-full md:w-1/3 lg:w-1/4">
-      <div className="p-2 my-2 mx-5 bg-white justify-between align-middle rounded-lg shadow-lg">
+    <div className="w-full md:w-1/3 lg:w-1/4 p-3">
+      <div className="p-2 mx-2 bg-white justify-between align-middle rounded-lg shadow-lg h-full">
         <div
           onClick={() => detailTodo(todo.id)}
-          className="p-2 lg:p-5 cursor-pointer hover:bg-indigo-400 rounded-md bg-gray-200"
+          className="p-2 lg:p-5 cursor-pointer hover:bg-indigo-400 rounded-md bg-gray-200 h-auto"
         >
           <div
             className={
@@ -28,18 +28,18 @@ const TodoItem = (props) => {
             {todo.due.date}
           </div>
         </div>
-        <div className="flex justify-between lg:items-center">
+        <div className="flex justify-between items-center">
           <div className="flex items-center">
             <a
               onClick={() => completeTodo(todo.id)}
-              className="mx-2 cursor-pointer text-2xl hover:text-indigo-500"
+              className="m-2 cursor-pointer text-2xl hover:text-indigo-500"
             >
               <BsCheckCircleFill />
             </a>
 
             <a
               onClick={() => uncompleteTodo(todo.id)}
-              className="mx-2 cursor-pointer text-3xl align-middle hover:text-indigo-500"
+              className="m-2 cursor-pointer text-3xl align-middle hover:text-indigo-500"
             >
               <MdCancel />
             </a>
@@ -47,7 +47,7 @@ const TodoItem = (props) => {
 
           <a
             onClick={() => removeTodo(todo.id)}
-            className="md:m-5 cursor-pointer text-2xl align-middle hover:text-indigo-500"
+            className="m-3 cursor-pointer text-2xl align-middle hover:text-indigo-500"
           >
             <BsTrashFill />
           </a>
